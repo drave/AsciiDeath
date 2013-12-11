@@ -11,6 +11,7 @@ commands:
     aliases: [asc, pf]
     usage: |
       Usage: /<command> Get current players face
+           : /<command> [name] Get [name] players face
 
 permissions:
   asciideath:

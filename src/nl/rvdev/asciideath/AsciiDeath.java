@@ -43,6 +43,12 @@ public class AsciiDeath extends JavaPlugin implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		//String name = event.getPlayer().getName();
 		Player p = event.getEntity().getPlayer();
+		
+		if(event.getEntity().getKiller() instanceof Player){
+			getPlayerFace(p, event.getEntity().getKiller());
+		}
+		
+		/*
 		p.sendMessage(" ");
 		p.sendMessage("     " +asciistuff.skinLine(ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN));
 		p.sendMessage("     " +asciistuff.skinLine(ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN));
@@ -53,6 +59,7 @@ public class AsciiDeath extends JavaPlugin implements Listener {
 		p.sendMessage("     " +asciistuff.skinLine(ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN));
 		p.sendMessage("     " +asciistuff.skinLine(ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN, ChatColor.GREEN));
 		p.sendMessage(" ");
+		*/
 		//event.setDeathMessage(asciistuff.skinLine(ChatColor.RED, ChatColor.BLACK, ChatColor.YELLOW, ChatColor.RED, ChatColor.RED, ChatColor.YELLOW, ChatColor.BLACK, ChatColor.RED));
     }
 	
@@ -68,9 +75,14 @@ public class AsciiDeath extends JavaPlugin implements Listener {
 			} 
 			// Player commands
 			else {
-				getPlayerFace((Player) sender);
-        		return false;
-        		
+				if (args.length < 1) {
+					getPlayerFace((Player) sender);
+					return true;
+				} else {
+					String killer = args[0];
+					getPlayerFace((Player) sender, killer);
+					return true;
+				}
         	}
 		}
 		return false;
@@ -101,16 +113,103 @@ public class AsciiDeath extends JavaPlugin implements Listener {
 		    int width = max_x - min_x;
 			int height = max_y - min_y;
 			
+			p.sendMessage(" ");
+			p.sendMessage(ChatColor.BLUE + "You got killed by " + ChatColor.RED + name);
+			p.sendMessage(" ");
 			for(int j = 0; j < height; j++){
-				String chatString = "";
+				String chatString = "    ";
 				for(int i = 0; i < width; i++){
 					Color c = new Color(PlayerFace.getRGB(min_x + i, min_y + j));
 					chatString += asciistuff.codeU2592(getChatColorFromColor(c));
 				}
 				p.sendMessage(chatString);
 			}
+			p.sendMessage(" ");
 		}else{
 			p.sendMessage(ChatColor.RED + "Playername not found!");
+		}
+	}
+	
+	private void getPlayerFace(Player p, Player killer){
+		String name = killer.getName();
+		BufferedImage PlayerFace = null;
+		boolean cont = true;
+		try {
+			URL url;
+			if(name.equalsIgnoreCase("steve")){
+		    	url = new URL("https://minecraft.net/images/char.png");
+		    }else{
+		    	url = new URL("http://s3.amazonaws.com/MinecraftSkins/" + name + ".png");
+		    }			
+		    PlayerFace = ImageIO.read(url);
+			
+		} catch (IOException e) {
+			cont = false;
+		}
+		if(cont){
+			int min_x = 8;
+		    int max_x = 16;
+		    int min_y = 8;
+		    int max_y = 16;
+		    
+		    int width = max_x - min_x;
+			int height = max_y - min_y;
+			
+			p.sendMessage(" ");
+			p.sendMessage(ChatColor.BLUE + "You got killed by " + ChatColor.RED + name);
+			p.sendMessage(" ");
+			for(int j = 0; j < height; j++){
+				String chatString = "    ";
+				for(int i = 0; i < width; i++){
+					Color c = new Color(PlayerFace.getRGB(min_x + i, min_y + j));
+					chatString += asciistuff.codeU2592(getChatColorFromColor(c));
+				}
+				p.sendMessage(chatString);
+			}
+			p.sendMessage(" ");
+		}else{
+			//p.sendMessage(ChatColor.RED + "Playername not found!");
+		}
+	}
+	
+	private void getPlayerFace(Player p, String name){
+		BufferedImage PlayerFace = null;
+		boolean cont = true;
+		try {
+			URL url;
+			if(name.equalsIgnoreCase("steve")){
+		    	url = new URL("https://minecraft.net/images/char.png");
+		    }else{
+		    	url = new URL("http://s3.amazonaws.com/MinecraftSkins/" + name + ".png");
+		    }			
+		    PlayerFace = ImageIO.read(url);
+			
+		} catch (IOException e) {
+			cont = false;
+		}
+		if(cont){
+			int min_x = 8;
+		    int max_x = 16;
+		    int min_y = 8;
+		    int max_y = 16;
+		    
+		    int width = max_x - min_x;
+			int height = max_y - min_y;
+			
+			p.sendMessage(" ");
+			p.sendMessage(ChatColor.BLUE + "You got killed by " + ChatColor.RED + name);
+			p.sendMessage(" ");
+			for(int j = 0; j < height; j++){
+				String chatString = "    ";
+				for(int i = 0; i < width; i++){
+					Color c = new Color(PlayerFace.getRGB(min_x + i, min_y + j));
+					chatString += asciistuff.codeU2592(getChatColorFromColor(c));
+				}
+				p.sendMessage(chatString);
+			}
+			p.sendMessage(" ");
+		}else{
+			//p.sendMessage(ChatColor.RED + "Playername not found!");
 		}
 	}
 	
