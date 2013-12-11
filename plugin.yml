@@ -1,0 +1,18 @@
+name: AsciiDeath
+description: Ascii death message
+main: nl.rvdev.asciideath.AsciiDeath
+version: 1
+author: rreevv
+<nowiki>website: http://rvdev.nl/</nowiki>
+
+commands:
+  asciideath:
+    description: Get player face in ascii
+    aliases: [asc, pf]
+    usage: |
+      Usage: /<command> Get current players face
+
+permissions:
+  asciideath:
+    description: Gives access to all asciideath commands
+    default: op
